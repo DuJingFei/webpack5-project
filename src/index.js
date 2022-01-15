@@ -1,2 +1,2 @@
-import './index.css';
+import './index.less';
 console.log('its a test')
