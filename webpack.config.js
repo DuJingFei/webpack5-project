@@ -13,11 +13,36 @@ module.exports = {
   module: {
       rules: [
         {
+          test: /\.(png|jpe?g)$/i,
+          use: {
+            loader: 'url-loader',
+            options: {
+              limit: 80 * 1024,
+              esModule: false
+            }
+          }
+        },
+        {
+          test: /\.(html|htm)$/i,
+          use: {
+            loader: 'html-loader',
+            options: {
+              esModule: false
+            }
+          }
+        },
+        {
           test: /\.css$/i,
           use: [
             // 将css 打包到独立文件中
             //'style-loader', 
-            MiniCssExtractPlugin.loader,
+            {
+              loader: MiniCssExtractPlugin.loader,
+              options: {
+                publicPath: '../'
+              }
+            },
+            
             // css-loader按照CommonJS规范，将样式文件输出到JS中
             'css-loader',
 
@@ -28,7 +53,12 @@ module.exports = {
           test: /\.less$/i,
           use: [
             // 将css 打包到独立文件中
-            MiniCssExtractPlugin.loader,
+            {
+              loader: MiniCssExtractPlugin.loader,
+              options: {
+                publicPath: '../'
+              }
+            },
             // css-loader按照CommonJS规范，将样式文件输出到JS中
             'css-loader',
   
@@ -36,6 +66,34 @@ module.exports = {
 
             'less-loader',
           ]
+        },
+        {
+          test: /\.m?js$/,
+          exclude: /(node_modules|bower_components)/,
+          use: {
+            loader: 'babel-loader',
+            options: {
+              presets: [
+                [
+                  '@babel/preset-env',
+                  {
+                    // 按需加载
+                    useBuiltIns: 'usage',
+                    // core-js 版本
+                    corejs: 3,
+                    // targets: 'defaults'，允许我们制定兼容浏览器版本
+                    targets: {
+                      chrome: '58',
+                      ie: '9',
+                      firefox: '60',
+                      safari: '10',
+                      edge: '17'
+                    }
+                  }
+                ]
+              ]
+            }
+          }
         }
       ]
   },
@@ -48,6 +106,6 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: './src/index.tem.html',
       title: 'this is the temp title'
-    }), 
+    }),
   ]
 }
