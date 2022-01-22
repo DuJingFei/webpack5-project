@@ -1,6 +1,7 @@
 const { resolve } = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin').default;
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 
 module.exports = {
   mode: 'development',
@@ -32,7 +33,7 @@ module.exports = {
             'css-loader',
   
             'postcss-loader',
-            
+
             'less-loader',
           ]
         }
@@ -42,6 +43,7 @@ module.exports = {
     new HtmlWebpackPlugin(),
     new MiniCssExtractPlugin({
       filename: 'css/[name].css'
-    })
+    }),
+    new CssMinimizerPlugin()
   ]
 }
