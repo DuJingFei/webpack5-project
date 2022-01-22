@@ -40,10 +40,14 @@ module.exports = {
       ]
   },
   plugins: [
-    new HtmlWebpackPlugin(),
     new MiniCssExtractPlugin({
       filename: 'css/[name].css'
     }),
-    new CssMinimizerPlugin()
+    new CssMinimizerPlugin(),
+
+    new HtmlWebpackPlugin({
+      template: './src/index.tem.html',
+      title: 'this is the temp title'
+    }), 
   ]
 }
