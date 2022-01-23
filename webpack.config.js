@@ -1,4 +1,5 @@
 const { resolve } = require('path');
+const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin').default;
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
@@ -8,7 +9,7 @@ module.exports = {
   entry: './src/index.js',
   output: {
     path: resolve(__dirname, 'dist'),
-    filename: 'main.js'
+    filename: 'bundle.js'
   },
   module: {
       rules: [
@@ -96,6 +97,14 @@ module.exports = {
           }
         }
       ]
+  },
+  devServer: {
+    static: {
+      directory: resolve(__dirname, 'dist'),
+    },
+    //contentBase: resolve(__dirname, 'dist'),
+    compress: true, //启用gzip压缩
+    port: 8076,
   },
   plugins: [
     new MiniCssExtractPlugin({
